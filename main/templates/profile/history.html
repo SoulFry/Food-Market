@@ -1,0 +1,47 @@
+{% extends 'loyale.html' %}
+{% load static %}
+
+{% block title %}
+    История
+{% endblock %}
+
+{% block content %}
+    <div class="cart-detail">
+        <div class="cart-element-list">
+            <div class="nametag">
+                <h1>История</h1>
+            </div>
+            {% for order in orders %}
+                <div class="nametag">
+                    <h1>Заказ №{{ order.order_number }}</h1>
+                </div>
+                <div class="food-nametag">
+                    <ul>
+                        <li>Блюдо</li>
+                        <li>Заведение</li>
+                        <li>Цена за штуку</li>
+                        <li>Количество</li>
+                        <li>Цена</li>
+                    </ul>
+                </div>
+                <div>
+                {% for order_item in order_element %}
+                    {% if order == order_item.order %}
+                        <ul class="food-card">
+                            <li><img src="{{ order_item.dish.image.url }}" width="150px" height="150px"></li>
+                            <li><p>{{ order_item.cafe.name }}</p></li>
+                            <li><p>{{ order_item.dish.cost }}</p></li>
+                            <li><p>{{ order_item.count }}</p></li>
+                            <li><p>{{ order_item.get_cost }}</p><li>
+                        </ul>
+                    {% endif %}
+                {% endfor %}
+                    <div class="total-price">
+                        <p>Сумма заказа: {{ order.get_total_cost }} Руб</p>
+                        <h6>{{ order.date }}</h6>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

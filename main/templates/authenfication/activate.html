@@ -1,0 +1,14 @@
+{% extends 'loyale.html' %}
+
+{% block title %}
+    Регистрация завершена
+{% endblock %}
+
+{% block content %}
+    <div class="add-form">
+        <div class="add-form-content">
+            <p>Регистрация успешно заверщена!</p>
+            <a href = '{% url 'main' %}'><p>Вернуться на главную страницу</p></a>
+        </div>
+    </div>
+{% endblock %}

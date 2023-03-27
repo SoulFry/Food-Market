@@ -1,0 +1,87 @@
+{% extends 'loyale.html' %}
+{% load static %}
+
+{% block title %}
+    {{ cafe.name }}
+{% endblock %}
+
+{% block script %}
+    {% static 'scripts/Filter.js' %}
+{% endblock %}
+
+{% block content %}
+    <div class="back"><a href="{% url 'cafes' %}" class="back-button">Заведения</a></div>
+    <section>
+        <div class = cafe-info>
+            <img src="{{ cafe.image.url }}">
+            <h1>{{ cafe.name }}</h1>
+            <p>{{ cafe.description }}</p>
+            <a href="{{ cafe.location }}">Перейти к заведению на карте</a>
+            {% if request.user.is_staff %}
+                <a href = '{% url 'cafe-menu-add' cafe %}' class="add-button"><h6 class="text-align">Добавить Блюдо в меню</h6></a>
+            {% endif %}
+        </div>
+
+        <div class="filters">
+            <ul>
+                <li data-filter = 'all'>Все</li>
+                {% for category in categoryes %}
+                    <li data-filter="{{ category.category }}">{{ category }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="cafe-menu-div">
+            {% for caregory in categoryes %}
+            <div class = 'category-element {{ caregory.category }}'>
+                <div class="nametag"><h1>{{ caregory.category }}</h1></div>
+                    <div class="cafe-menu">
+                    {% for dish in cafemenu %}
+                        {% if dish.category == caregory %}
+                            <div>
+                                <img src="{{ dish.image.url }}">
+                                <h1>{{ dish.name }}</h1>
+                                <p>{{ dish.cost }} Руб</p>
+                                <form method="post" action="{% url "cart:cart-add" dish.id %}">
+                                    {{ cart_add_form }}
+                                    {% csrf_token %}
+                                    <input type="submit" value="Добавить в корину" class="cart-add-button">
+                                </form>
+                                <a href="{% url 'cost-edit' dish.id %}">Редактировать</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="comment-add">
+            <div class="c-add">
+                <form method="post" action="{% url "comment-add" cafe.name %}">
+                    {% for field in comment_add_form %}
+                    {% csrf_token %}
+                        <div class="element-form">
+                            <label>{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                <button type="submit">Добавить комментарий</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="comments">
+            {% for comment in comments %}
+            <div class="comment">
+                <h2>Тема: {{ comment.subject }}</h2>
+                <h3>Оценка: {{ comment.mark }}</h3>
+                <p>{{ comment.comment }}</p>
+                <h5>От: {{ comment.from_user }}</h5>
+                <h5 class="public-date">Дата: {{ comment.public_date }}</h5>
+            </div>
+            {% endfor %}
+        </div>
+
+    </section>
+{% endblock %}

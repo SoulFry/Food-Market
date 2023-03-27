@@ -1,0 +1,45 @@
+{% extends 'loyale.html' %}
+{% load static %}
+
+{% block title %}
+    Профиль
+{% endblock %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <div class = 'profile-panel'>
+            <div class="profile-icon-menu">
+                <img src="{{ request.user.avatar }}" width="400" height="400" class="profile-avatar">
+                {% if request.user.is_superuser %}
+                    <p>Ваш статус: Администратор</p>
+                    <p>Ваша электронная почта: {{ user.email }}</p>
+                {% elif request.user.is_staff %}
+                    <p>Ваш статус: Модератор</p>
+                    <p>Ваша электронная почта: {{ user.email }}</p>
+                {% elif request.user.is_active %}
+                    <p>Ваш статус: Пользователь</p>
+                    <p>Ваша электронная почта: {{ user.email }}</p>
+                {% endif %}
+            </div>
+            <div class="profile-info-menu">
+                <p>Баланс: {{ user.balance }}</p>
+                <div class = "profile-functional-list">
+                    <a href = '{% url 'history' %}'><p>История</p></a>
+                    <a href = '#'><p>Избранное</p></a>
+                    <a href = '#'><p>Поддержка</p></a>
+                    <a href = '{% url 'avatar_change' %}'><p>Сменить аватар</p></a>
+                    <a href = '{% url 'password_check' %}'><p>Поменять пароль</p></a>
+                    {% if request.user.is_staff %}
+                        <a href = '{% url 'cafe-add' %}'><p>Добавить Кафе</p></a>
+                        <a href = '#'><p>Добавить Ресторан</p></a>
+                    {% endif %}
+                    {% if request.user.is_superuser %}
+                        <a href=""><p>Администрирование</p></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <h1>Отказано в доступе</h1>
+    {% endif %}
+{% endblock %}

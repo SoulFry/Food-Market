@@ -1,0 +1,23 @@
+{% extends 'loyale.html' %}
+{% load static %}
+
+{% block title %}
+Закажите еду на""
+{% endblock %}
+
+{% block content %}
+    <section class = "establishments">
+        <a href = "{% url 'cafes' %}">
+            <div class = "nametag">
+                <h1>Кафе</h1>
+            </div>
+            <div class="establishments-list">
+                <ul>
+                    {% for cafe in cafes %}
+                        <li><a href="{% url 'cafe-menu' cafe.name %}"><img src="{{ cafe.image.url }}"></a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </a>
+    </section>
+{% endblock %}

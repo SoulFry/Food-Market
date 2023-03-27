@@ -1,0 +1,32 @@
+{% extends 'loyale.html' %}
+{% load static %}
+
+{% block title %}
+    Корзина
+{% endblock %}
+
+{% block content %}
+    <div class="cart-detail">
+        <div class='cart-element-list'>
+            <div class="nametag"><h1>Корзина</h1></div>
+            {% for item in cart %}
+                {% with product=item.object %}
+                    <div class="cart-element">
+                        <img src="{{ product.image.url }}">
+                            <div class="product-info">
+                                <h1>{{ product.name }}</h1>
+                                <p>Цена за штуку: {{ product.cost }}</p>
+                                <p>Количество: {{ item.count }}</p>
+                                <p>Цена: {{ item.total_cost }}</p>
+                                <a href="{% url 'cart:cart-remove' product.id %}">Удалить товар</a>
+                            </div>
+                        </div>
+                    {% endwith %}
+            {% endfor %}
+            <div class="total-price">
+                <a href="{% url 'orders:order-checkout' %}">Оформить заказ</a>
+                <p>Итоговая сумма: {{ cart.get_total_cost }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

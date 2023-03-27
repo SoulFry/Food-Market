@@ -1,0 +1,47 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel = 'stylesheet' href = "{% static 'style/light.css' %}">
+</head>
+<body>
+    <header class = "header">
+        <ul class="left-header">
+            <li class="logotype"><a href = '{% url 'main' %}'><img src = '{% static "images/main/logo.PNG" %}' height="40px" width="240px"></a></li>
+            <li class="search">
+                <form method="get" action="{% url 'cafes' %}">
+                    <input type="search" placeholder="Поиск" name = "search">
+                    <button type = submit>Поиск</button>
+                </form>
+            </li>
+        </ul>
+        <ul class = 'right-header'>
+            {% if request.user.is_confirmed %}
+                <li class = "logout"><a href = '{% url 'logout' %}'>Выйти</a></li>
+                <li class="profile"><a href="{% url 'profile' %}">Профиль</a></li>
+            {% else %}
+                <li class = "logining"><a  href = '{% url 'login' %}'>Войти</a></li>
+                <li class="logining"><a href = "{% url 'registration' %}">Регистрация</a></li>
+            {% endif %}
+            <li class="basket"><a href="{% url 'cart:cart-detail' %}">Корзина</a></li>
+        </ul>
+    </header>
+    <main>
+    {% block content %}
+
+    {% endblock %}
+    </main>
+    <footer class = footer>
+        <div class = footer-info>
+            <ul>
+                <li><a href = ''>Лицензия</a></li>
+                <li><a href = ''>Пользовательское соглашение</a></li>
+                <li><a href = ''>Помощь</a></li>
+                <li><a href = ''>Частые вопросы</a></li>
+            </ul>
+        </div>
+    </footer>
+<script src = {% block script %}{% endblock %}></script>
+</body>
+</html>

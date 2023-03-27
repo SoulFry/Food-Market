@@ -1,0 +1,47 @@
+{% extends 'loyale.html' %}
+{% load static %}
+
+{% block title %}
+    Кафе
+{% endblock title %}
+
+{% block script %}
+    {% static 'scripts/Filter.js' %}
+{% endblock %}
+
+{% block content %}
+    <section class = 'cafes'>
+
+        <div class="nametag">
+            <h1>Кафе</h1>
+        </div>
+
+        <div class="filters">
+            <ul>
+                <li data-filter = 'all'>Все</li>
+                {% for category in categoryes %}
+                    <li data-filter="{{ category.category }}">{{ category }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="cafes-list">
+            <ul>
+            {% for category in categoryes %}
+                {% for cafe in cafes %}
+                    {% if category == cafe.category %}
+                    <li class="category-element {{ category.category }}">
+                        <a href ='{% url 'cafe-menu' name=cafe.name %}'>
+                            <img src='{{ cafe.image.url }}'>
+                            <h3>{{ cafe.name }}</h3>
+                            <h3>Оценка: {{ cafe.get_total_mark }}/5.0</h3>
+                            <p>{{ cafe.description }}</p>
+                        </a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            </ul>
+        </div>
+    </section>
+{% endblock content %}

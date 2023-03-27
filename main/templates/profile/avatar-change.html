@@ -1,0 +1,31 @@
+{% extends 'loyale.html' %}
+
+{% block title %}
+    Смена аватара
+{% endblock %}
+
+{% block content %}
+    <div class="add-form">
+        <form method="post", enctype="multipart/form-data", autocomplete="off">
+        {% csrf_token %}
+            {% for field in form %}
+                <div class="central-replace">
+                    <label class = 'filefield'>
+                        <p>{{ field.label }}</p>
+                        {{ field }}
+                    </label>
+                </div>
+            {% endfor %}
+            <button type="submit" class = 'creation-button'>Завершить</button>
+        </form>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}

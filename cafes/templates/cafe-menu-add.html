@@ -1,0 +1,38 @@
+{% extends 'loyale.html' %}
+
+{% block title %}
+    Добавление блюда
+{% endblock %}
+
+{% block content %}
+    <div class = 'add-form'>
+        <form method="post", enctype="multipart/form-data", autocomplete="off"> <!-- enctype - Обязательно -->
+        {% csrf_token %}
+            {% for field in form %}
+                <div class = 'field-div'>
+                    <div class = 'element-div'>
+                        {% if field.name == 'image' %}
+                            <label class = 'filefield'>
+                                <p>{{ field.label }}</p>
+                                {{ field }}
+                            </label>
+                        {% else %}
+                            <label>{{ field.label }}</label>
+                            {{ field }}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+            <button type="submit" class = 'creation-button'>Добавить блюдо</button>
+        </form>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}

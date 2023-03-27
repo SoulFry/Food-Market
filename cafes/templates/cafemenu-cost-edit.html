@@ -1,0 +1,17 @@
+{% extends 'loyale.html' %}
+
+{% block title %}
+    Изменение Цены
+{% endblock %}
+
+{% block content %}
+    <div class="add-form">
+        <form method="post">
+            <div class="field-div">
+                {% csrf_token %}
+                {{ form }}
+            </div>
+            <button type="submit" class="creation-button">Изменить</button>
+        </form>
+    </div>
+{% endblock %}

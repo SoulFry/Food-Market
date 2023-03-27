@@ -1,0 +1,41 @@
+{% extends 'loyale.html' %}
+
+{% block title %}
+    Ваш заказ
+{% endblock %}
+
+{% block content %}
+    <div class="cart-detail">
+        <div class="cart-element-list">
+            <div class="nametag">
+                <h1>Ваш заказ:</h1>
+            </div>
+            {% for item in cart %}
+                {% with product=item.object %}
+                    <div class="cart-element">
+                        <img src="{{ product.image.url }}">
+                            <div class="product-info">
+                                <h1>{{ product.name }}</h1>
+                                <p>Цена за штуку: {{ product.cost }}</p>
+                                <p>Количество: {{ item.count }}</p>
+                                <p>Цена: {{ item.total_cost }}</p>
+                            </div>
+                        </div>
+                    {% endwith %}
+            {% endfor %}
+            <div class="total-price"><p>К оплате: {{ cart.get_total_cost }} Руб</p></div>
+            <div class="client-detail">
+                <form method="post">
+                {% csrf_token %}
+                    {% for field in form %}
+                        <div class="field">
+                            <label>{{ field.label }}</label>
+                            <div class="put-field">{{ field }}</div>
+                        </div>
+                    {% endfor %}
+                <button type="submit" class="creation-button">Оформить заказ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

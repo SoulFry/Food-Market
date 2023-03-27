@@ -1,0 +1,49 @@
+{% extends 'loyale.html' %}
+
+{% block title %}
+Регистрация
+{% endblock %}
+
+{% block content %}
+    <div class="add-form">
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="field-div">
+                    <div class="element-div">
+                        {% if field.name == 'code' %}
+                            <span></span>
+                        {% else %}
+                            <label>{{ field.label }}</label>
+                            {{ field }}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+            <button class="creation-button">Регистрация</button>
+        </form>
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+        {% endif %}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}
